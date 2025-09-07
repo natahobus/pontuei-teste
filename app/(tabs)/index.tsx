@@ -1,10 +1,21 @@
+// app/(tabs)/index.tsx
 import React from "react";
-import { View, Text, StyleSheet, TextInput, FlatList, Image, ScrollView, TouchableOpacity, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  FlatList,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
+import ScreenContainer from "../../components/ScreenContainer";
 
 const { width } = Dimensions.get("window");
 
-const HomeScreen = () => {
-  
+export default function HomeScreen() {
   const ultimos = [
     { id: "1", nome: "Diadê", img: "https://via.placeholder.com/100" },
     { id: "2", nome: "Santa Barba", img: "https://via.placeholder.com/100" },
@@ -31,96 +42,93 @@ const HomeScreen = () => {
   ];
 
   return (
-    <ScrollView style={styles.container}>
-      {/* Logo e boas-vindas */}
-      <Text style={styles.logo}>pontuei.</Text>
-      <Text style={styles.welcome}>
-        Bem vindo de volta, {"\n"}
-        <Text style={styles.username}>Natã Kuhn!</Text>
-      </Text>
+    <ScreenContainer>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Logo e boas-vindas */}
+        <Text style={styles.logo}>pontuei.</Text>
+        <Text style={styles.welcome}>
+          Bem vindo de volta, {"\n"}
+          <Text style={styles.username}>Natã Kuhn!</Text>
+        </Text>
 
-      {/* Barra de busca */}
-      <TextInput
-        style={styles.search}
-        placeholder="Pesquise por lojas, cafeterias e mais"
-        placeholderTextColor="#999"
-      />
+        {/* Barra de busca */}
+        <TextInput
+          style={styles.search}
+          placeholder="Pesquise por lojas, cafeterias e mais"
+          placeholderTextColor="#999"
+        />
 
-      {/* Últimos visitados */}
-      <View style={styles.section}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>últimos estabelecimentos visitados</Text>
-          <Text style={styles.verMais}>ver mais</Text>
+        {/* Últimos visitados */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>
+              últimos estabelecimentos visitados
+            </Text>
+            <Text style={styles.verMais}>ver mais</Text>
+          </View>
+          <FlatList
+            data={ultimos}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.card}>
+                <Image source={{ uri: item.img }} style={styles.cardImg} />
+                <Text style={styles.cardText}>{item.nome}</Text>
+              </View>
+            )}
+          />
         </View>
+
+        {/* Carrossel de avisos rolável */}
+        <View style={styles.section}>
+          <FlatList
+            data={avisos}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.carousel}>
+                <Text style={styles.carouselText}>{item.titulo}</Text>
+              </View>
+            )}
+          />
+        </View>
+
+        {/* Serviços */}
+        <Text style={styles.sectionTitle}>Serviços</Text>
+        <View style={styles.grid}>
+          {servicos.map((s) => (
+            <TouchableOpacity key={s.id} style={styles.gridItem}>
+              <Text style={styles.gridText}>{s.nome}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Lojas próximas */}
+        <Text style={styles.sectionTitle}>Lojas próximas de você</Text>
         <FlatList
-          data={ultimos}
+          data={lojasProximas}
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.card}>
-              <Image source={{ uri: item.img }} style={styles.cardImg} />
+            <View style={styles.cardSmall}>
               <Text style={styles.cardText}>{item.nome}</Text>
             </View>
           )}
         />
-      </View>
-
-      {/* Carrossel de avisos rolável */}
-      <View style={styles.section}>
-        <FlatList
-          data={avisos}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.carousel}>
-              <Text style={styles.carouselText}>{item.titulo}</Text>
-            </View>
-          )}
-        />
-      </View>
-
-      {/* Serviços */}
-      <Text style={styles.sectionTitle}>Serviços</Text>
-      <View style={styles.grid}>
-        {servicos.map((s) => (
-          <TouchableOpacity key={s.id} style={styles.gridItem}>
-            <Text style={styles.gridText}>{s.nome}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      {/* Lojas próximas */}
-      <Text style={styles.sectionTitle}>Lojas próximas de você</Text>
-      <FlatList
-        data={lojasProximas}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.cardSmall}>
-            <Text style={styles.cardText}>{item.nome}</Text>
-          </View>
-        )}
-      />
-    </ScrollView>
+      </ScrollView>
+    </ScreenContainer>
   );
-};
-
-export default HomeScreen;
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "#fff",
-  },
   logo: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#E94057", 
+    color: "#E94057",
     marginBottom: 8,
     textAlign: "center",
   },
