@@ -1,37 +1,41 @@
 // components/CartIcon.tsx
+import React from "react";
+import { View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useCart } from "../context/CartContext";
-import { router } from "expo-router";
-import { TouchableOpacity, View, Text } from "react-native";
 
-export default function CartIcon({ color, size }: { color: string; size: number }) {
+type Props = {
+  color?: string;
+  size?: number;
+};
+
+export default function CartIcon({ color = "#000", size = 24 }: Props) {
   const { cart } = useCart();
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <TouchableOpacity onPress={() => router.push("/cart")}>
-      <View>
-        <Ionicons
-          name={cart.length > 0 ? "cart" : "cart-outline"}
-          size={size}
-          color={color}
-        />
-        {cart.length > 0 && (
-          <View
-            style={{
-              position: "absolute",
-              right: -6,
-              top: -3,
-              backgroundColor: "red",
-              borderRadius: 8,
-              paddingHorizontal: 4,
-            }}
-          >
-            <Text style={{ color: "white", fontSize: 12, fontWeight: "bold" }}>
-              {cart.length}
-            </Text>
-          </View>
-        )}
-      </View>
-    </TouchableOpacity>
+    <View style={{ paddingRight: 12 }}>
+      <Ionicons name="cart-outline" size={size} color={color} />
+      {totalItems > 0 && (
+        <View
+          style={{
+            position: "absolute",
+            right: 4,
+            top: -4,
+            backgroundColor: "#E94057",
+            borderRadius: 12,
+            minWidth: 18,
+            height: 18,
+            justifyContent: "center",
+            alignItems: "center",
+            paddingHorizontal: 4,
+          }}
+        >
+          <Text style={{ color: "#fff", fontSize: 11, fontWeight: "bold" }}>
+            {totalItems}
+          </Text>
+        </View>
+      )}
+    </View>
   );
 }

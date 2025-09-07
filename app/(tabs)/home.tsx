@@ -1,3 +1,4 @@
+// app/(tabs)/home.tsx
 import React from "react";
 import {
   View,
@@ -10,11 +11,17 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import { useRouter } from "expo-router";
 import ScreenContainer from "../../components/ScreenContainer";
+import Card from "../../components/Card";
+import theme from "../../theme";
+import { Ionicons } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
 
 const HomeScreen = () => {
+  const router = useRouter();
+
   const ultimos = [
     { id: "1", nome: "Diadê", img: "https://via.placeholder.com/100" },
     { id: "2", nome: "Santa Barba", img: "https://via.placeholder.com/100" },
@@ -22,22 +29,22 @@ const HomeScreen = () => {
   ];
 
   const servicos = [
-    { id: "1", nome: "Cafeterias" },
-    { id: "2", nome: "Mercados" },
-    { id: "3", nome: "Barbearias" },
-    { id: "4", nome: "Restaurantes" },
+    { id: "1", nome: "Cafeterias", icon: "cafe-outline" },
+    { id: "2", nome: "Mercados", icon: "cart-outline" },
+    { id: "3", nome: "Barbearias", icon: "cut-outline" },
+    { id: "4", nome: "Restaurantes", icon: "restaurant-outline" },
   ];
 
   const lojasProximas = [
-    { id: "1", nome: "Café Bom Dia" },
-    { id: "2", nome: "Barbearia Style" },
-    { id: "3", nome: "Mercado Central" },
+    { id: "1", nome: "Café Bom Dia", img: "https://via.placeholder.com/200" },
+    { id: "2", nome: "Barbearia Style", img: "https://via.placeholder.com/200" },
+    { id: "3", nome: "Mercado Central", img: "https://via.placeholder.com/200" },
   ];
 
   const avisos = [
-    { id: "1", titulo: "Promoção exclusiva 💥" },
-    { id: "2", titulo: "Ganhe pontos em dobro ⭐" },
-    { id: "3", titulo: "Novo parceiro cadastrado 🎉" },
+    { id: "1", titulo: "Promoção exclusiva 💥", cor: "#fde2e4" },
+    { id: "2", titulo: "Ganhe pontos em dobro ⭐", cor: "#fff3b0" },
+    { id: "3", titulo: "Novo parceiro cadastrado 🎉", cor: "#d0f4de" },
   ];
 
   return (
@@ -46,7 +53,7 @@ const HomeScreen = () => {
         {/* Logo e boas-vindas */}
         <Text style={styles.logo}>pontuei.</Text>
         <Text style={styles.welcome}>
-          Bem vindo de volta, {"\n"}
+          Bem-vindo de volta,{"\n"}
           <Text style={styles.username}>Natã Kuhn!</Text>
         </Text>
 
@@ -60,9 +67,7 @@ const HomeScreen = () => {
         {/* Últimos visitados */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>
-              últimos estabelecimentos visitados
-            </Text>
+            <Text style={styles.sectionTitle}>Últimos estabelecimentos</Text>
             <Text style={styles.verMais}>ver mais</Text>
           </View>
           <FlatList
@@ -71,10 +76,12 @@ const HomeScreen = () => {
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <View style={styles.card}>
-                <Image source={{ uri: item.img }} style={styles.cardImg} />
-                <Text style={styles.cardText}>{item.nome}</Text>
-              </View>
+              <TouchableOpacity onPress={() => router.push(`/store/${item.id}`)}>
+                <Card style={styles.card}>
+                  <Image source={{ uri: item.img }} style={styles.cardImg} />
+                  <Text style={styles.cardText}>{item.nome}</Text>
+                </Card>
+              </TouchableOpacity>
             )}
           />
         </View>
@@ -88,9 +95,9 @@ const HomeScreen = () => {
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <View style={styles.carousel}>
+              <Card style={[styles.carousel, { backgroundColor: item.cor }]}>
                 <Text style={styles.carouselText}>{item.titulo}</Text>
-              </View>
+              </Card>
             )}
           />
         </View>
@@ -100,6 +107,7 @@ const HomeScreen = () => {
         <View style={styles.grid}>
           {servicos.map((s) => (
             <TouchableOpacity key={s.id} style={styles.gridItem}>
+              <Ionicons name={s.icon as any} size={24} color={theme.colors.primary} />
               <Text style={styles.gridText}>{s.nome}</Text>
             </TouchableOpacity>
           ))}
@@ -113,9 +121,12 @@ const HomeScreen = () => {
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.cardSmall}>
-              <Text style={styles.cardText}>{item.nome}</Text>
-            </View>
+            <TouchableOpacity onPress={() => router.push(`/store/${item.id}`)}>
+              <Card style={styles.cardLarge}>
+                <Image source={{ uri: item.img }} style={styles.cardLargeImg} />
+                <Text style={styles.cardText}>{item.nome}</Text>
+              </Card>
+            </TouchableOpacity>
           )}
         />
       </ScrollView>
@@ -126,20 +137,16 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
   logo: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#E94057",
+    color: theme.colors.primary,
     marginBottom: 8,
     textAlign: "center",
   },
   welcome: {
     fontSize: 16,
-    color: "#333",
+    color: theme.colors.text,
     marginBottom: 20,
   },
   username: {
@@ -162,15 +169,17 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#333",
+    color: theme.colors.text,
   },
   verMais: {
     fontSize: 14,
-    color: "#E94057",
+    color: theme.colors.primary,
   },
   card: {
     marginRight: 12,
     alignItems: "center",
+    padding: 8,
+    width: 100,
   },
   cardImg: {
     width: 80,
@@ -181,20 +190,22 @@ const styles = StyleSheet.create({
   },
   cardText: {
     fontSize: 12,
-    color: "#333",
+    color: theme.colors.text,
+    textAlign: "center",
   },
   carousel: {
     width: width - 60,
     height: 120,
     borderRadius: 16,
-    backgroundColor: "#f8d7da",
     justifyContent: "center",
     alignItems: "center",
     marginRight: 12,
   },
   carouselText: {
-    color: "#E94057",
-    fontSize: 14,
+    fontSize: 16,
+    fontWeight: "600",
+    color: theme.colors.text,
+    textAlign: "center",
   },
   grid: {
     flexDirection: "row",
@@ -204,24 +215,30 @@ const styles = StyleSheet.create({
   },
   gridItem: {
     width: "48%",
-    height: 80,
-    backgroundColor: "#f2f2f2",
+    height: 100,
+    backgroundColor: "#f9f9f9",
     borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 12,
   },
   gridText: {
-    color: "#333",
+    color: theme.colors.text,
     fontWeight: "500",
+    marginTop: 6,
   },
-  cardSmall: {
-    width: 100,
-    height: 80,
-    backgroundColor: "#f2f2f2",
-    borderRadius: 12,
-    justifyContent: "center",
-    alignItems: "center",
+  cardLarge: {
+    width: 160,
+    height: 140,
     marginRight: 12,
+    alignItems: "center",
+    padding: 8,
+  },
+  cardLargeImg: {
+    width: "100%",
+    height: 90,
+    borderRadius: 12,
+    marginBottom: 6,
+    backgroundColor: "#eee",
   },
 });

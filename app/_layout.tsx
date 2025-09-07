@@ -1,29 +1,29 @@
 // app/_layout.tsx
-import { Stack } from "expo-router";
+import { Stack, Link } from "expo-router";
+import { Pressable } from "react-native";
 import { CartProvider } from "../context/CartContext";
-import { useFonts } from "expo-font";
-import { Text } from "react-native";
+import CartIcon from "../components/CartIcon";
 
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
-    Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
-    "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
-  });
-
-  if (!fontsLoaded) {
-    return <Text>Carregando...</Text>;
-  }
-
   return (
     <CartProvider>
       <Stack>
-        {/* Tabs principais */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-        {/* Loja com botão de voltar */}
-        <Stack.Screen name="store/[id]" options={{ title: "Loja" }} />
+        <Stack.Screen
+          name="store/[id]"
+          options={{
+            title: "Loja",
+            headerRight: () => (
+              <Link href="/cart" asChild>
+                <Pressable style={{ marginRight: 12 }}>
+                  <CartIcon color="#000" size={24} />
+                </Pressable>
+              </Link>
+            ),
+          }}
+        />
 
-        {/* Carrinho */}
         <Stack.Screen name="cart" options={{ title: "Carrinho" }} />
       </Stack>
     </CartProvider>
