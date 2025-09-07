@@ -1,4 +1,3 @@
-// app/(tabs)/index.tsx
 import React from "react";
 import {
   View,
@@ -15,7 +14,7 @@ import ScreenContainer from "../../components/ScreenContainer";
 
 const { width } = Dimensions.get("window");
 
-export default function HomeScreen() {
+const HomeScreen = () => {
   const ultimos = [
     { id: "1", nome: "Diadê", img: "https://via.placeholder.com/100" },
     { id: "2", nome: "Santa Barba", img: "https://via.placeholder.com/100" },
@@ -80,7 +79,7 @@ export default function HomeScreen() {
           />
         </View>
 
-        {/* Carrossel de avisos rolável */}
+        {/* Carrossel de avisos */}
         <View style={styles.section}>
           <FlatList
             data={avisos}
@@ -122,9 +121,15 @@ export default function HomeScreen() {
       </ScrollView>
     </ScreenContainer>
   );
-}
+};
+
+export default HomeScreen;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
   logo: {
     fontSize: 22,
     fontWeight: "bold",
