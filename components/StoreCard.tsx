@@ -1,7 +1,7 @@
 // components/StoreCard.tsx
 import { Text, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
-import Card from "./card";
+import Card from "./Card";
 import { colors } from "../theme";
 
 export default function StoreCard({ loja }: any) {

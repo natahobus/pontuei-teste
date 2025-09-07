@@ -2,7 +2,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { useCart } from "../context/CartContext";
 import PrimaryButton from "./PrimaryButton";
-import Card from "./card";
+import Card from "./Card";
 import { colors } from "../theme";
 
 export default function ProductCard({ product }: { product: any }) {
