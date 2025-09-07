@@ -1,8 +1,14 @@
-export const colors = {
-  primary: "#E94057",
-  secondary: "#FFB400",
-  background: "#FFFFFF",
-  text: "#333333",
-  gray: "#999999",
-  lightGray: "#F5F5F5",
+const theme = {
+  colors: {
+    primary: "#E94057",
+    secondary: "#FFB400",
+    background: "#F9F9F9",
+    text: "#333",
+  },
+  fonts: {
+    regular: "Poppins-Regular",
+    medium: "Poppins-Medium",
+    bold: "Poppins-Bold",
+  },
 };
+export default theme;

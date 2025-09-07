@@ -1,4 +1,3 @@
-// app/(tabs)/_layout.tsx
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -17,8 +16,16 @@ export default function TabLayout() {
         },
       }}
     >
+      {/* Oculta o index da barra */}
       <Tabs.Screen
-        name="home" 
+        name="index"
+        options={{
+          href: null, 
+        }}
+      />
+
+      <Tabs.Screen
+        name="home"
         options={{
           title: "Início",
           tabBarIcon: ({ color, size }) => (

@@ -1,6 +1,6 @@
-// components/PrimaryButton.tsx
+import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
-import { colors } from "../theme";
+import theme from "../theme";
 
 type Props = {
   title: string;
@@ -17,14 +17,15 @@ export default function PrimaryButton({ title, onPress }: Props) {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: colors.primary,
-    padding: 12,
-    borderRadius: 12,
+    backgroundColor: theme.colors.primary,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 10,
     alignItems: "center",
   },
   text: {
     color: "#fff",
-    fontFamily: "Poppins-Bold",
     fontSize: 16,
+    fontFamily: theme.fonts.medium,
   },
 });
