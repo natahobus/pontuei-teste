@@ -1,80 +1,78 @@
 // app/cart.tsx
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { useCart } from "../context/CartContext";
+import ScreenContainer from "../components/ScreenContainer";
 
 export default function CartScreen() {
-  const { cart, increase, decrease, removeAt, clearCart, totalPoints, totalPrice } = useCart();
+  const { cart, removeAt, increase, decrease, totalPoints, totalPrice } = useCart();
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={cart}
-        keyExtractor={(item) => item.id}
-        ListEmptyComponent={<Text style={styles.empty}>Seu carrinho está vazio</Text>}
-        renderItem={({ item, index }) => (
-          <View style={styles.item}>
-            <View style={{ flex: 1 }}>
+    <ScreenContainer>
+      {cart.length === 0 ? (
+        <Text style={styles.empty}>Seu carrinho está vazio 😢</Text>
+      ) : (
+        <FlatList
+          data={cart}
+          keyExtractor={(item, index) => item.id + index}
+          renderItem={({ item, index }) => (
+            <View style={styles.item}>
               <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.points}>
-                {item.points} pontos • R$ {item.price}
-              </Text>
+              <Text>{item.points} pts</Text>
+              <Text>R$ {item.price.toFixed(2)}</Text>
+              <View style={styles.actions}>
+                <TouchableOpacity onPress={() => decrease(index)}>
+                  <Text style={styles.actionBtn}>-</Text>
+                </TouchableOpacity>
+                <Text style={styles.qty}>{item.quantity}</Text>
+                <TouchableOpacity onPress={() => increase(index)}>
+                  <Text style={styles.actionBtn}>+</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => removeAt(index)}>
+                  <Text style={styles.remove}>🗑️</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-
-            <View style={styles.actions}>
-              <TouchableOpacity onPress={() => decrease(index)} style={styles.button}>
-                <Text style={styles.buttonText}>-</Text>
-              </TouchableOpacity>
-              <Text style={styles.quantity}>{item.quantity}</Text>
-              <TouchableOpacity onPress={() => increase(index)} style={styles.button}>
-                <Text style={styles.buttonText}>+</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
-      />
-
+          )}
+        />
+      )}
       {cart.length > 0 && (
-        <View style={styles.footer}>
-          <Text style={styles.total}>
-            Total: {totalPoints} pontos • R$ {totalPrice.toFixed(2)}
-          </Text>
-          <TouchableOpacity onPress={clearCart} style={styles.clearButton}>
-            <Text style={styles.clearText}>Limpar Carrinho</Text>
-          </TouchableOpacity>
+        <View style={styles.summary}>
+          <Text>Total: {totalPoints} pts</Text>
+          <Text>R$ {totalPrice.toFixed(2)}</Text>
         </View>
       )}
-    </View>
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: "#fff" },
-  empty: { textAlign: "center", marginTop: 32, fontSize: 16, color: "gray" },
+  empty: {
+    textAlign: "center",
+    marginTop: 50,
+    fontSize: 16,
+    color: "gray",
+  },
   item: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderColor: "#eee",
+    backgroundColor: "#f9f9f9",
+    padding: 12,
+    marginBottom: 8,
+    borderRadius: 8,
   },
-  name: { fontSize: 16, fontWeight: "bold" },
-  points: { fontSize: 14, color: "gray" },
-  actions: { flexDirection: "row", alignItems: "center" },
-  button: {
-    backgroundColor: "#FF4D6D",
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+  name: { fontWeight: "bold", fontSize: 16, marginBottom: 4 },
+  actions: { flexDirection: "row", alignItems: "center", marginTop: 8 },
+  actionBtn: {
+    fontSize: 18,
+    width: 28,
+    textAlign: "center",
+    backgroundColor: "#eee",
     borderRadius: 6,
   },
-  buttonText: { color: "#fff", fontSize: 18 },
-  quantity: { marginHorizontal: 8, fontSize: 16, fontWeight: "bold" },
-  footer: { marginTop: 16, alignItems: "center" },
-  total: { fontSize: 16, fontWeight: "bold" },
-  clearButton: {
-    marginTop: 8,
-    backgroundColor: "#ddd",
-    padding: 8,
-    borderRadius: 6,
+  qty: { marginHorizontal: 12, fontSize: 16 },
+  remove: { marginLeft: 12, fontSize: 18, color: "red" },
+  summary: {
+    marginTop: 16,
+    padding: 16,
+    backgroundColor: "#eee",
+    borderRadius: 8,
   },
-  clearText: { color: "#333" },
 });
