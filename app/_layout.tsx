@@ -1,45 +1,30 @@
 // app/_layout.tsx
 import { Stack } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import { Pressable } from "react-native";
-import { useRouter } from "expo-router";
 import { CartProvider } from "../context/CartContext";
-
-function HeaderRightCart() {
-  const router = useRouter();
-  return (
-    <Pressable
-      onPress={() => router.push("/cart")}
-      style={{ marginRight: 16 }}
-    >
-      <Ionicons name="cart-outline" size={24} color="#333" />
-    </Pressable>
-  );
-}
+import { useFonts } from "expo-font";
+import { Text } from "react-native";
 
 export default function RootLayout() {
+  const [fontsLoaded] = useFonts({
+    Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
+    "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return <Text>Carregando...</Text>;
+  }
+
   return (
     <CartProvider>
       <Stack>
         {/* Tabs principais */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-        {/* Loja com botão de voltar e carrinho */}
-        <Stack.Screen
-          name="store/[id]"
-          options={{
-            title: "Loja",
-            headerRight: () => <HeaderRightCart />,
-          }}
-        />
+        {/* Loja com botão de voltar */}
+        <Stack.Screen name="store/[id]" options={{ title: "Loja" }} />
 
-        {/* Carrinho fora das tabs */}
-        <Stack.Screen
-          name="cart"
-          options={{
-            title: "Carrinho",
-          }}
-        />
+        {/* Carrinho */}
+        <Stack.Screen name="cart" options={{ title: "Carrinho" }} />
       </Stack>
     </CartProvider>
   );
