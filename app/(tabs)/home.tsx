@@ -1,4 +1,4 @@
-// app/(tabs)/home.tsx
+// app/(tabs)/home.tsx home app
 import React from "react";
 import {
   View,
