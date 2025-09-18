@@ -29,4 +29,4 @@ export default function RootLayout() {
     </CartProvider>
   );
 }
-// app/(tabs)/home.tsx --- IGNORE ---
+
