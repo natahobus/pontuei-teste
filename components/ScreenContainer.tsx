@@ -1,27 +1,16 @@
 import React, { ReactNode } from "react";
-import { SafeAreaView, StyleSheet, ViewStyle } from "react-native";
+import { SafeAreaView } from "react-native";
 
 export default function ScreenContainer({
   children,
-  style,
+  className,
 }: {
   children: ReactNode;
-  style?: ViewStyle;
+  className?: string;
 }) {
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <SafeAreaView style={[styles.container, style]}>{children}</SafeAreaView>
+    <SafeAreaView className="flex-1 bg-white">
+      <SafeAreaView className={`flex-1 p-4 ${className || ""}`}>{children}</SafeAreaView>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-});

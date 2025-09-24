@@ -14,24 +14,11 @@ export default function CartIcon({ color = "#000", size = 24 }: Props) {
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <View style={{ paddingRight: 12 }}>
+    <View className="pr-3">
       <Ionicons name="cart-outline" size={size} color={color} />
       {totalItems > 0 && (
-        <View
-          style={{
-            position: "absolute",
-            right: 4,
-            top: -4,
-            backgroundColor: "#E94057",
-            borderRadius: 12,
-            minWidth: 18,
-            height: 18,
-            justifyContent: "center",
-            alignItems: "center",
-            paddingHorizontal: 4,
-          }}
-        >
-          <Text style={{ color: "#fff", fontSize: 11, fontWeight: "bold" }}>
+        <View className="absolute -top-1 right-1 bg-primary rounded-full min-w-[18px] h-[18px] justify-center items-center px-1">
+          <Text className="text-white text-xs font-bold">
             {totalItems}
           </Text>
         </View>

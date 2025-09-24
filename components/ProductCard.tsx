@@ -1,11 +1,10 @@
 // components/ProductCard.tsx
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import { Product } from "../data/stores";
 import { useCart } from "../context/CartContext";
 import Card from "./Card";
 import PrimaryButton from "./PrimaryButton";
-import theme from "../theme";
 
 type Props = {
   product: Product;
@@ -17,48 +16,18 @@ export default function ProductCard({ product }: Props) {
   const { addToCart } = useCart();
 
   return (
-    <Card style={styles.card}>
-      <View style={styles.row}>
-        <View style={styles.info}>
-          <Text style={styles.name}>{product.name}</Text>
-          <Text style={styles.meta}>
+    <Card className="p-3 mb-3">
+      <View className="flex-row items-center">
+        <View className="flex-1 pr-3">
+          <Text className="text-base font-bold text-text">{product.name}</Text>
+          <Text className="text-sm font-regular text-gray-600 mt-1">
             {money(product.price)} • {product.points} pontos
           </Text>
         </View>
-
-        <View style={styles.buttonWrap}>
+        <View className="w-30">
           <PrimaryButton title="Adicionar" onPress={() => addToCart(product)} />
         </View>
       </View>
     </Card>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    padding: 12,
-    marginBottom: 12,
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  info: {
-    flex: 1,
-    paddingRight: 12,
-  },
-  name: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: theme.colors.text,
-  },
-  meta: {
-    marginTop: 4,
-    fontSize: 13,
-    fontFamily: theme.fonts.regular,
-    color: "#666",
-  },
-  buttonWrap: {
-    width: 120, // dá um tamanho consistente ao botão
-  },
-});
