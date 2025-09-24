@@ -16,7 +16,7 @@ export default function RootLayout() {
             title: "Loja",
             headerRight: () => (
               <Link href="/cart" asChild>
-                <Pressable style={{ marginRight: 12 }}>
+                <Pressable className="mr-3">
                   <CartIcon color="#000" size={24} />
                 </Pressable>
               </Link>

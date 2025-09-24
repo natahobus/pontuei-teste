@@ -7,14 +7,11 @@ import {
   TextInput,
   FlatList,
   TouchableOpacity,
-  StyleSheet,
   Image,
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-
-const PINK = "#E94057";
 
 const categories = [
   { id: "1", name: "Cafeterias" },
@@ -54,13 +51,13 @@ export default function ExploreScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-white p-4">
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Campo de busca */}
-        <View style={styles.searchContainer}>
+        <View className="flex-row items-center bg-gray-100 rounded-xl px-3 mb-5">
           <Ionicons name="search-outline" size={20} color="#999" />
           <TextInput
-            style={styles.searchInput}
+            className="flex-1 py-3 ml-2"
             placeholder="Buscar lojas, serviços..."
             placeholderTextColor="#999"
             value={search}
@@ -69,7 +66,7 @@ export default function ExploreScreen() {
         </View>
 
         {/* Categorias */}
-        <Text style={styles.sectionTitle}>Categorias</Text>
+        <Text className="text-base font-bold mb-3 mt-2 text-text">Categorias</Text>
         <FlatList
           data={categories}
           horizontal
@@ -77,25 +74,25 @@ export default function ExploreScreen() {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingVertical: 8 }}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.categoryCard}>
-              <Text style={styles.categoryText}>{item.name}</Text>
+            <TouchableOpacity className="bg-pink-100 py-3 px-4 rounded-full mr-3">
+              <Text className="text-sm text-primary font-semibold">{item.name}</Text>
             </TouchableOpacity>
           )}
         />
 
         {/* Lojas recomendadas */}
-        <Text style={styles.sectionTitle}>Lojas recomendadas</Text>
+        <Text className="text-base font-bold mb-3 mt-2 text-text">Lojas recomendadas</Text>
         {filteredStores.map((store) => (
-          <View key={store.id} style={styles.storeCard}>
-            <Image source={{ uri: store.image }} style={styles.storeImage} />
-            <View style={styles.storeInfo}>
-              <Text style={styles.storeName}>{store.name}</Text>
-              <Text style={styles.storePoints}>{store.points} pontos</Text>
+          <View key={store.id} className="bg-white rounded-2xl mb-5 overflow-hidden shadow-sm">
+            <Image source={{ uri: store.image }} className="w-full h-38" />
+            <View className="p-3">
+              <Text className="text-base font-bold mb-1 text-text">{store.name}</Text>
+              <Text className="text-sm text-gray-500 mb-3">{store.points} pontos</Text>
               <TouchableOpacity
-                style={styles.button}
+                className="bg-primary py-3 rounded-xl items-center"
                 onPress={() => router.push(`/store/${store.id}`)}
               >
-                <Text style={styles.buttonText}>Ver loja</Text>
+                <Text className="text-white font-bold">Ver loja</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -105,81 +102,4 @@ export default function ExploreScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    padding: 16,
-  },
-  searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f2f2f2",
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    marginBottom: 20,
-  },
-  searchInput: {
-    flex: 1,
-    paddingVertical: 10,
-    marginLeft: 8,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: "700",
-    marginBottom: 12,
-    marginTop: 8,
-    color: "#333",
-  },
-  categoryCard: {
-    backgroundColor: "#f8d7da",
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-    marginRight: 10,
-  },
-  categoryText: {
-    fontSize: 14,
-    color: PINK,
-    fontWeight: "600",
-  },
-  storeCard: {
-    backgroundColor: "#fff",
-    borderRadius: 16,
-    marginBottom: 20,
-    overflow: "hidden",
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 2,
-  },
-  storeImage: {
-    width: "100%",
-    height: 150,
-  },
-  storeInfo: {
-    padding: 12,
-  },
-  storeName: {
-    fontSize: 16,
-    fontWeight: "700",
-    marginBottom: 4,
-    color: "#333",
-  },
-  storePoints: {
-    fontSize: 14,
-    color: "#888",
-    marginBottom: 10,
-  },
-  button: {
-    backgroundColor: PINK,
-    paddingVertical: 10,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "700",
-  },
-});
+

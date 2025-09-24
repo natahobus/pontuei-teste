@@ -5,13 +5,11 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  StyleSheet,
 } from "react-native";
 import { Link } from "expo-router";
 import { useCart } from "../context/CartContext";
 import ScreenContainer from "../components/ScreenContainer";
 import PrimaryButton from "../components/PrimaryButton";
-import theme from "../theme";
 
 const money = (v: number) => `R$ ${v.toFixed(2).replace(".", ",")}`;
 
@@ -21,14 +19,14 @@ export default function CartScreen() {
   if (cart.length === 0) {
     return (
       <ScreenContainer>
-        <View style={styles.emptyWrap}>
-          <Text style={styles.emptyTitle}>Seu carrinho está vazio</Text>
-          <Text style={styles.emptySubtitle}>
+        <View className="flex-1 items-center justify-center gap-2 pt-6">
+          <Text className="text-lg font-bold text-text">Seu carrinho está vazio</Text>
+          <Text className="text-sm font-regular text-gray-500 text-center mb-3">
             Adicione itens em qualquer loja para vê-los aqui.
           </Text>
           <Link href="/home" asChild>
-            <TouchableOpacity style={styles.emptyCta}>
-              <Text style={styles.emptyCtaText}>Explorar lojas</Text>
+            <TouchableOpacity className="bg-primary py-3 px-4 rounded-xl">
+              <Text className="text-white font-bold">Explorar lojas</Text>
             </TouchableOpacity>
           </Link>
         </View>
@@ -42,52 +40,52 @@ export default function CartScreen() {
         data={cart}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ paddingBottom: 24 }}
-        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+        ItemSeparatorComponent={() => <View className="h-3" />}
         renderItem={({ item, index }) => {
           const itemSubtotal = item.price * item.quantity;
           const itemPoints = item.points * item.quantity;
           return (
-            <View style={styles.itemCard}>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.itemName}>{item.name}</Text>
-                <Text style={styles.itemMeta}>
+            <View className="bg-white border border-pink-200 rounded-xl p-3 flex-row gap-3">
+              <View className="flex-1">
+                <Text className="text-base font-bold text-text">{item.name}</Text>
+                <Text className="text-sm font-regular text-gray-600 mt-1">
                   {money(item.price)} • {item.points} pts (unid.)
                 </Text>
 
-                <View style={styles.qtyRow}>
+                <View className="flex-row items-center gap-2 mt-3">
                   <TouchableOpacity
                     onPress={() => decrease(index)}
-                    style={styles.qtyBtn}
+                    className="w-8 h-8 rounded-lg bg-gray-100 items-center justify-center"
                   >
-                    <Text style={styles.qtyBtnText}>−</Text>
+                    <Text className="text-lg font-bold text-text">−</Text>
                   </TouchableOpacity>
 
-                  <Text style={styles.qtyValue}>{item.quantity}</Text>
+                  <Text className="min-w-6 text-center text-base font-bold text-text">{item.quantity}</Text>
 
                   <TouchableOpacity
                     onPress={() => increase(index)}
-                    style={styles.qtyBtn}
+                    className="w-8 h-8 rounded-lg bg-gray-100 items-center justify-center"
                   >
-                    <Text style={styles.qtyBtnText}>+</Text>
+                    <Text className="text-lg font-bold text-text">+</Text>
                   </TouchableOpacity>
                 </View>
               </View>
 
-              <View style={styles.itemRight}>
-                <Text style={styles.itemSubtotal}>{money(itemSubtotal)}</Text>
-                <Text style={styles.itemPoints}>{itemPoints} pts</Text>
-                <TouchableOpacity onPress={() => removeAt(index)} style={styles.removeBtn}>
-                  <Text style={styles.removeTxt}>Remover</Text>
+              <View className="items-end justify-between">
+                <Text className="text-sm font-bold text-primary">{money(itemSubtotal)}</Text>
+                <Text className="text-xs font-regular text-gray-500">{itemPoints} pts</Text>
+                <TouchableOpacity onPress={() => removeAt(index)} className="py-2 px-3 bg-pink-400 rounded-lg">
+                  <Text className="text-white font-bold text-xs">Remover</Text>
                 </TouchableOpacity>
               </View>
             </View>
           );
         }}
         ListFooterComponent={
-          <View style={styles.footer}>
+          <View className="mt-4 pt-3 border-t border-gray-200 flex-row items-center justify-between">
             <View>
-              <Text style={styles.totalValue}>Total: {money(totalPrice)}</Text>
-              <Text style={styles.totalPoints}>{totalPoints} pontos</Text>
+              <Text className="text-base font-bold text-primary">Total: {money(totalPrice)}</Text>
+              <Text className="text-sm font-regular text-gray-600 mt-1">{totalPoints} pontos</Text>
             </View>
             <PrimaryButton title="Limpar carrinho" onPress={clearCart} />
           </View>
@@ -97,128 +95,4 @@ export default function CartScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  emptyWrap: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    paddingTop: 24,
-  },
-  emptyTitle: {
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: theme.colors.text,
-  },
-  emptySubtitle: {
-    fontSize: 13,
-    fontFamily: theme.fonts.regular,
-    color: "#777",
-    textAlign: "center",
-    marginBottom: 12,
-  },
-  emptyCta: {
-    backgroundColor: theme.colors.primary,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 10,
-  },
-  emptyCtaText: {
-    color: "#fff",
-    fontFamily: theme.fonts.bold,
-  },
 
-  itemCard: {
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#f8bbd0",
-    borderRadius: 12,
-    padding: 12,
-    flexDirection: "row",
-    gap: 12,
-  },
-  itemName: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: theme.colors.text,
-  },
-  itemMeta: {
-    marginTop: 2,
-    fontSize: 13,
-    fontFamily: theme.fonts.regular,
-    color: "#666",
-  },
-  qtyRow: {
-    marginTop: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  qtyBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-    backgroundColor: "#f2f2f2",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  qtyBtnText: {
-    fontSize: 18,
-    fontFamily: theme.fonts.bold,
-    color: theme.colors.text,
-  },
-  qtyValue: {
-    minWidth: 24,
-    textAlign: "center",
-    fontSize: 15,
-    fontFamily: theme.fonts.bold,
-    color: theme.colors.text,
-  },
-
-  itemRight: {
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-  },
-  itemSubtotal: {
-    fontSize: 14,
-    fontFamily: theme.fonts.bold,
-    color: theme.colors.primary,
-  },
-  itemPoints: {
-    fontSize: 12,
-    fontFamily: theme.fonts.regular,
-    color: "#888",
-  },
-  removeBtn: {
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    backgroundColor: "#f06292",
-    borderRadius: 8,
-  },
-  removeTxt: {
-    color: "#fff",
-    fontFamily: theme.fonts.bold,
-    fontSize: 12,
-  },
-
-  footer: {
-    marginTop: 16,
-    paddingTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: "#f3f3f3",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  totalValue: {
-    fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: theme.colors.primary,
-  },
-  totalPoints: {
-    marginTop: 2,
-    fontSize: 13,
-    fontFamily: theme.fonts.regular,
-    color: "#666",
-  },
-});
