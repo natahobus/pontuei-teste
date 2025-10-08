@@ -1,14 +1,14 @@
-const theme = {
+export default {
   colors: {
-    primary: "#E94057",
-    secondary: "#FFB400",
-    background: "#F9F9F9",
-    text: "#333",
+    primary: '#e91e63',
+    text: '#333',
+    background: '#f5f5f5',
   },
   fonts: {
-    regular: "Poppins-Regular",
-    medium: "Poppins-Medium",
-    bold: "Poppins-Bold",
+    regular: 'Poppins-Regular',
+    bold: 'Poppins-Bold',
+    medium: 'Poppins-Medium',
+    semiBold: 'Poppins-SemiBold',
+    light: 'Poppins-Light',
   },
 };
-export default theme;
