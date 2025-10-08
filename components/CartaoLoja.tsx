@@ -15,7 +15,7 @@ export default function CartaoLoja({ id, name, category, image }: CartaoLojaProp
   return (
     <Link href={`/loja/${id}`} asChild>
       <TouchableOpacity activeOpacity={0.9}>
-        <Cartao style={styles.card}>
+        <Cartao style={[styles.card, { overflow: "hidden" }]}>
           {image ? (
             <Image source={{ uri: image }} style={styles.image} resizeMode="cover" />
           ) : (
@@ -35,7 +35,6 @@ export default function CartaoLoja({ id, name, category, image }: CartaoLojaProp
 
 const styles = StyleSheet.create({
   card: {
-    overflow: "hidden",
     padding: 0,
   },
   image: {

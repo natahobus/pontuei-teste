@@ -73,7 +73,7 @@ export default function CartScreen() {
                 </View>
               </View>
 
-              <View style={styles.itemRight}>
+              <View style={[styles.itemRight, { marginLeft: 12 }]}>
                 <Text style={styles.itemSubtotal}>{money(itemSubtotal)}</Text>
                 <Text style={styles.itemPoints}>{itemPoints} pts</Text>
                 <TouchableOpacity onPress={() => removeAt(index)} style={styles.removeBtn}>
@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    gap: 8,
     paddingTop: 24,
   },
   emptyTitle: {
@@ -135,7 +134,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 12,
     flexDirection: "row",
-    gap: 12,
   },
   itemName: {
     fontSize: 16,
@@ -152,7 +150,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
   },
   qtyBtn: {
     width: 32,
@@ -173,6 +170,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: theme.fonts.bold,
     color: theme.colors.text,
+    marginHorizontal: 8,
   },
 
   itemRight: {

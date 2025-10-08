@@ -80,7 +80,7 @@ export default function TelaExplorar() {
 
         <Text style={styles.sectionTitle}>Lojas recomendadas</Text>
         {filteredStores.map((store) => (
-          <View key={store.id} style={styles.storeCard}>
+          <View key={store.id} style={[styles.storeCard, { overflow: "hidden" }]}>
             <Image source={{ uri: store.image }} style={styles.storeImage} />
             <View style={styles.storeContent}>
               <Text style={styles.storeName}>{store.name}</Text>
@@ -137,7 +137,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 16,
     marginBottom: 20,
-    overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,

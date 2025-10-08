@@ -30,7 +30,7 @@ export default function TelaPerfil() {
         <View style={styles.avatar}>
           <Ionicons name="person-outline" size={28} color={theme.colors.primary} />
         </View>
-        <View>
+        <View style={{ marginLeft: 12 }}>
           <Text style={styles.userName}>{user.name}</Text>
           <Text style={styles.userSubtitle}>Conta Pontuei</Text>
         </View>
@@ -42,10 +42,10 @@ export default function TelaPerfil() {
 
         <View style={styles.tierBadge}>
           <Ionicons name="star" size={14} color="#fff" />
-          <Text style={styles.tierText}>Nível {user.tier}</Text>
+          <Text style={[styles.tierText, { marginLeft: 8 }]}>Nível {user.tier}</Text>
         </View>
 
-        <View style={styles.progressBar}>
+        <View style={[styles.progressBar, { overflow: "hidden" }]}>
           <View style={[styles.progressFill, { width: "60%" }]} />
         </View>
         <Text style={styles.progressText}>
@@ -54,7 +54,7 @@ export default function TelaPerfil() {
       </View>
 
       <Text style={styles.sectionTitle}>Minha conta</Text>
-      <View style={styles.menuContainer}>
+      <View style={[styles.menuContainer, { overflow: "hidden" }]}>
         {conta.map((item, idx) => (
           <TouchableOpacity
             key={item.id}
@@ -63,7 +63,7 @@ export default function TelaPerfil() {
           >
             <View style={styles.menuItemLeft}>
               <Ionicons name={item.icon as any} size={22} color={theme.colors.primary} />
-              <Text style={styles.menuItemText}>{item.label}</Text>
+              <Text style={[styles.menuItemText, { marginLeft: 12 }]}>{item.label}</Text>
             </View>
             <Ionicons name="chevron-forward" size={20} color="#bbb" />
           </TouchableOpacity>
@@ -71,7 +71,7 @@ export default function TelaPerfil() {
       </View>
 
       <Text style={styles.sectionTitle}>Configurações</Text>
-      <View style={styles.menuContainer}>
+      <View style={[styles.menuContainer, { overflow: "hidden" }]}>
         {ajustes.map((item, idx) => (
           <TouchableOpacity
             key={item.id}
@@ -80,7 +80,7 @@ export default function TelaPerfil() {
           >
             <View style={styles.menuItemLeft}>
               <Ionicons name={item.icon as any} size={22} color={theme.colors.primary} />
-              <Text style={styles.menuItemText}>{item.label}</Text>
+              <Text style={[styles.menuItemText, { marginLeft: 12 }]}>{item.label}</Text>
             </View>
             <Ionicons name="chevron-forward" size={20} color="#bbb" />
           </TouchableOpacity>
@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 16,
-    gap: 12,
   },
   avatar: {
     width: 44,
@@ -150,7 +149,6 @@ const styles = StyleSheet.create({
   tierBadge: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
     backgroundColor: theme.colors.primary,
     paddingVertical: 4,
     paddingHorizontal: 12,
@@ -167,7 +165,6 @@ const styles = StyleSheet.create({
     height: 8,
     backgroundColor: "#f5f5f5",
     borderRadius: 4,
-    overflow: "hidden",
     marginTop: 4,
   },
   progressFill: {
@@ -196,7 +193,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: "#f0f0f0",
-    overflow: "hidden",
     marginBottom: 12,
   },
   menuItem: {
@@ -213,7 +209,6 @@ const styles = StyleSheet.create({
   menuItemLeft: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 12,
   },
   menuItemText: {
     fontSize: 16,
