@@ -1,10 +1,11 @@
-// components/ProductCard.tsx
+// components/CartaoProduto.tsx
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Product } from "../data/stores";
 import { useCart } from "../context/CartContext";
-import Card from "./Card";
-import PrimaryButton from "./PrimaryButton";
+import Cartao from "./Cartao";
+import BotaoPrimario from "./BotaoPrimario";
+import theme from "../theme";
 
 type Props = {
   product: Product;
@@ -12,22 +13,51 @@ type Props = {
 
 const money = (v: number) => `R$ ${v.toFixed(2).replace(".", ",")}`;
 
-export default function ProductCard({ product }: Props) {
+export default function CartaoProduto({ product }: Props) {
   const { addToCart } = useCart();
 
   return (
-    <Card className="p-3 mb-3">
-      <View className="flex-row items-center">
-        <View className="flex-1 pr-3">
-          <Text className="text-base font-bold text-text">{product.name}</Text>
-          <Text className="text-sm font-regular text-gray-600 mt-1">
+    <Cartao style={styles.card}>
+      <View style={styles.content}>
+        <View style={styles.info}>
+          <Text style={styles.name}>{product.name}</Text>
+          <Text style={styles.price}>
             {money(product.price)} • {product.points} pontos
           </Text>
         </View>
-        <View className="w-30">
-          <PrimaryButton title="Adicionar" onPress={() => addToCart(product)} />
+        <View style={styles.buttonContainer}>
+          <BotaoPrimario title="Adicionar" onPress={() => addToCart(product)} />
         </View>
       </View>
-    </Card>
+    </Cartao>
   );
 }
+
+const styles = StyleSheet.create({
+  card: {
+    padding: 12,
+    marginBottom: 12,
+  },
+  content: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  info: {
+    flex: 1,
+    paddingRight: 12,
+  },
+  name: {
+    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+    color: theme.colors.text,
+  },
+  price: {
+    fontSize: 14,
+    fontFamily: theme.fonts.regular,
+    color: "#666",
+    marginTop: 4,
+  },
+  buttonContainer: {
+    width: 120,
+  },
+});

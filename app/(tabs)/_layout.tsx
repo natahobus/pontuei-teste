@@ -25,7 +25,7 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="home"
+        name="inicio"
         options={{
           title: "Início",
           tabBarIcon: ({ color, size }) => (
@@ -34,7 +34,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="explorar"
         options={{
           title: "Explorar",
           tabBarIcon: ({ color, size }) => (
@@ -43,8 +43,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="cart"
+        name="carrinho"
         options={{
+          href: "/carrinho",
           title: "Carrinho",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="cart-outline" size={size} color={color} />
@@ -52,7 +53,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="perfil"
         options={{
           title: "Perfil",
           tabBarIcon: ({ color, size }) => (

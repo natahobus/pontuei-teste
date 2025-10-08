@@ -2,7 +2,7 @@
 import { Stack, Link } from "expo-router";
 import { Pressable } from "react-native";
 import { CartProvider } from "../context/CartContext";
-import CartIcon from "../components/CartIcon";
+import IconeCarrinho from "../components/IconeCarrinho";
 
 export default function RootLayout() {
   return (
@@ -11,20 +11,20 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
         <Stack.Screen
-          name="store/[id]"
+          name="loja/[id]"
           options={{
             title: "Loja",
             headerRight: () => (
-              <Link href="/cart" asChild>
-                <Pressable className="mr-3">
-                  <CartIcon color="#000" size={24} />
+              <Link href="/carrinho" asChild>
+                <Pressable style={{ marginRight: 12 }}>
+                  <IconeCarrinho color="#000" size={24} />
                 </Pressable>
               </Link>
             ),
           }}
         />
 
-        <Stack.Screen name="cart" options={{ title: "Carrinho" }} />
+        <Stack.Screen name="carrinho" options={{ title: "Carrinho" }} />
       </Stack>
     </CartProvider>
   );

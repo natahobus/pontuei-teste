@@ -1,7 +1,5 @@
-
 import React, { useState } from "react";
 import {
-  SafeAreaView,
   View,
   Text,
   TextInput,
@@ -9,9 +7,12 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  StyleSheet,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import ContainerTela from "../../components/ContainerTela";
+import theme from "../../theme";
 
 const categories = [
   { id: "1", name: "Cafeterias" },
@@ -37,12 +38,11 @@ const stores = [
     id: "3",
     name: "Nicolini Supermercado",
     points: 200,
-    image:
-      "https://via.placeholder.com/300x150/F8BBD0/000000?text=Nicolini+Super",
+    image: "https://via.placeholder.com/300x150/F8BBD0/000000?text=Nicolini+Super",
   },
 ];
 
-export default function ExploreScreen() {
+export default function TelaExplorar() {
   const [search, setSearch] = useState("");
   const router = useRouter();
 
@@ -51,13 +51,12 @@ export default function ExploreScreen() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-white p-4">
+    <ContainerTela>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Campo de busca */}
-        <View className="flex-row items-center bg-gray-100 rounded-xl px-3 mb-5">
+        <View style={styles.searchContainer}>
           <Ionicons name="search-outline" size={20} color="#999" />
           <TextInput
-            className="flex-1 py-3 ml-2"
+            style={styles.searchInput}
             placeholder="Buscar lojas, serviços..."
             placeholderTextColor="#999"
             value={search}
@@ -65,8 +64,7 @@ export default function ExploreScreen() {
           />
         </View>
 
-        {/* Categorias */}
-        <Text className="text-base font-bold mb-3 mt-2 text-text">Categorias</Text>
+        <Text style={styles.sectionTitle}>Categorias</Text>
         <FlatList
           data={categories}
           horizontal
@@ -74,32 +72,105 @@ export default function ExploreScreen() {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingVertical: 8 }}
           renderItem={({ item }) => (
-            <TouchableOpacity className="bg-pink-100 py-3 px-4 rounded-full mr-3">
-              <Text className="text-sm text-primary font-semibold">{item.name}</Text>
+            <TouchableOpacity style={styles.categoryItem}>
+              <Text style={styles.categoryText}>{item.name}</Text>
             </TouchableOpacity>
           )}
         />
 
-        {/* Lojas recomendadas */}
-        <Text className="text-base font-bold mb-3 mt-2 text-text">Lojas recomendadas</Text>
+        <Text style={styles.sectionTitle}>Lojas recomendadas</Text>
         {filteredStores.map((store) => (
-          <View key={store.id} className="bg-white rounded-2xl mb-5 overflow-hidden shadow-sm">
-            <Image source={{ uri: store.image }} className="w-full h-38" />
-            <View className="p-3">
-              <Text className="text-base font-bold mb-1 text-text">{store.name}</Text>
-              <Text className="text-sm text-gray-500 mb-3">{store.points} pontos</Text>
+          <View key={store.id} style={styles.storeCard}>
+            <Image source={{ uri: store.image }} style={styles.storeImage} />
+            <View style={styles.storeContent}>
+              <Text style={styles.storeName}>{store.name}</Text>
+              <Text style={styles.storePoints}>{store.points} pontos</Text>
               <TouchableOpacity
-                className="bg-primary py-3 rounded-xl items-center"
-                onPress={() => router.push(`/store/${store.id}`)}
+                style={styles.storeButton}
+                onPress={() => router.push(`/loja/${store.id}`)}
               >
-                <Text className="text-white font-bold">Ver loja</Text>
+                <Text style={styles.storeButtonText}>Ver loja</Text>
               </TouchableOpacity>
             </View>
           </View>
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </ContainerTela>
   );
 }
 
-
+const styles = StyleSheet.create({
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    marginBottom: 20,
+  },
+  searchInput: {
+    flex: 1,
+    paddingVertical: 12,
+    marginLeft: 8,
+    fontFamily: theme.fonts.regular,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+    marginBottom: 12,
+    marginTop: 8,
+    color: theme.colors.text,
+  },
+  categoryItem: {
+    backgroundColor: "#fce4ec",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    marginRight: 12,
+  },
+  categoryText: {
+    fontSize: 14,
+    color: theme.colors.primary,
+    fontFamily: theme.fonts.semiBold,
+  },
+  storeCard: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    marginBottom: 20,
+    overflow: "hidden",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  storeImage: {
+    width: "100%",
+    height: 152,
+  },
+  storeContent: {
+    padding: 12,
+  },
+  storeName: {
+    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+    marginBottom: 4,
+    color: theme.colors.text,
+  },
+  storePoints: {
+    fontSize: 14,
+    color: "#777",
+    marginBottom: 12,
+    fontFamily: theme.fonts.regular,
+  },
+  storeButton: {
+    backgroundColor: theme.colors.primary,
+    paddingVertical: 12,
+    borderRadius: 12,
+    alignItems: "center",
+  },
+  storeButtonText: {
+    color: "#fff",
+    fontFamily: theme.fonts.bold,
+  },
+});
