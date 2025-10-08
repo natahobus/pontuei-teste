@@ -15,7 +15,7 @@ export default function RootLayout() {
           options={{
             title: "Loja",
             headerRight: () => (
-              <Link href="/carrinho" asChild>
+              <Link href="/cart" asChild>
                 <Pressable style={{ marginRight: 12 }}>
                   <IconeCarrinho color="#000" size={24} />
                 </Pressable>
